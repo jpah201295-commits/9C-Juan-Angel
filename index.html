@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juan Pablo Angel Herrera</title>
+    <style>
+        body {
+            background-color: #010e26;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .titulo {
+            color: #fff;
+        }
+
+        .contenedor {
+            display: flex;
+            justify-content: center;
+            border: 1px solid white;
+        }
+
+        .conten-principal {
+            display: flex;
+            border: 1px solid white;
+            height: 84vh;
+        }
+
+        .parrafo {
+            color: #fff;
+            margin-left: 50px;
+            margin-right: 50px;
+        }
+
+        .conten-imagen {
+            display: flex;
+            border: 1px solid white;
+            margin: 10px;
+        }
+
+        .conten-parrafo {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid white;
+            margin: 10px;
+            width: 100%;
+        }
+
+        .p-nombre {
+            color: #fff;
+            font-size: 40px;
+            text-align: center;
+        }
+
+        .botones_1 {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .boton_1 {
+            display: inline-block;
+            padding: 10px 20px;
+            color: #fff;
+            background: transparent;
+            border: 2px solid #39ff14;
+            border-radius: 6px;
+            text-decoration: none;
+            box-shadow: 0 0 8px rgba(57, 255, 20, 0.6), inset 0 0 10px rgba(57, 255, 20, 0.15);
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        .boton_1:hover {
+            background-color: rgba(57, 255, 20, 0.2);
+        }
+
+        .horario {
+            color: #fff;
+            text-align: center;
+            border: 1px solid white;
+        }
+
+        .tabla {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid white;
+        }
+
+        .tabla th,
+        .tabla td {
+            border: 1px solid white;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .modo-hacker th {
+            background-color: #87CEFA !important;
+            color: #000 !important;
+        }
+
+        .modo-hacker td {
+            background-color: #FFD700 !important;
+            color: #000 !important;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="contenedor">
+            <h1 class="titulo">Juan Pablo</h1>
+        </div>
+    </header>
+
+    <br>
+
+    <div class="conten-principal">
+        <div class="conten-imagen">
+            <img src="foto.png" alt="Juan Pablo">
+        </div>
+
+        <div class="conten-parrafo">
+            <h1 class="p-nombre">Juan Pablo Angel Herrera</h1>
+            <p class="parrafo">Hola soy Juan Pablo, soy estudiante de noveno del LSB, me gusta la musica pop, el origami, las hamburguesas, programar y las matemáticas.</p>
+
+            <div class="botones_1">
+                <button class="boton_1" id="btn_toggle">Boton 1</button>
+                <button class="boton_1" id="btn-color">Boton 2</button>
+                <a href="Registro.html"><button class="boton_1">Boton 3</button></a>
+            </div>
+
+            <div class="horario" id="horario">
+                <h1 class="h-titulo">Horario</h1>
+                <table class="tabla" id="tabla-clases">
+                    <tr>
+                        <th>Hora</th>
+                        <th>Dia 1</th>
+                        <th>Dia 2</th>
+                        <th>Dia 3</th>
+                        <th>Dia 4</th>
+                        <th>Dia 5</th>
+                        <th>Dia 6</th>
+                        <th>Dia 7</th>
+                    </tr>
+                    <tr>
+                        <td>6:50 AM</td>
+                        <td>Español</td>
+                        <td>Sociales</td>
+                        <td>Estadistica</td>
+                        <td>Filosofia</td>
+                        <td>Dibujo-Skills</td>
+                        <td>Matematicas</td>
+                        <td>Sociales</td>
+                    </tr>
+                    <tr>
+                        <td>7:45 AM</td>
+                        <td>Biologia</td>
+                        <td>Frances</td>
+                        <td>Español</td>
+                        <td>Frances</td>
+                        <td>Dibujo-Skills</td>
+                        <td>Educacion Fisica</td>
+                        <td>My English Lab</td>
+                    </tr>
+                    <tr>
+                        <td>8:40 AM</td>
+                        <td>D</td>
+                        <td>E</td>
+                        <td>S</td>
+                        <td>C</td>
+                        <td>A</td>
+                        <td>N</td>
+                        <td>SO</td>
+                    </tr>
+                    <tr>
+                        <td>9:35 AM</td>
+                        <td>Skills</td>
+                        <td>Matematicas</td>
+                        <td>Ingles</td>
+                        <td>Ingles</td>
+                        <td>Sociales</td>
+                        <td>Biologia</td>
+                        <td>Ingles</td>
+                    </tr>
+                    <tr>
+                        <td>10:30 AM</td>
+                        <td>Frances</td>
+                        <td>Tecnologia</td>
+                        <td>PILEO</td>
+                        <td>Matematicas</td>
+                        <td>Matematicas</td>
+                        <td>Fisica</td>
+                        <td>Biologia</td>
+                    </tr>
+                    <tr>
+                        <td>11:25 AM</td>
+                        <td>Ingles</td>
+                        <td>Biologia</td>
+                        <td>Sociales</td>
+                        <td>Robotica</td>
+                        <td>Danzas</td>
+                        <td>PILEO</td>
+                        <td>Matematicas</td>
+                    </tr>
+                    <tr>
+                        <td>12:20 PM</td>
+                        <td>Geometria</td>
+                        <td>Educacion Fisica</td>
+                        <td>Tecnologia</td>
+                        <td>Etica</td>
+                        <td>Español</td>
+                        <td>Sociales</td>
+                        <td>Quimica</td>
+                    </tr>
+                    <tr>
+                        <td>1:15 PM</td>
+                        <td>Catedra para la Paz</td>
+                        <td>Español</td>
+                        <td>Danzas</td>
+                        <td>Biologia</td>
+                        <td>Ingles</td>
+                        <td>Sociales</td>
+                        <td>Español</td>
+                    </tr>
+                    <tr>
+                        <td>2:10 PM</td>
+                        <td>S</td>
+                        <td>A</td>
+                        <td>L</td>
+                        <td>I</td>
+                        <td>D</td>
+                        <td>A</td>
+                        <td>S</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const horario = document.getElementById('horario');
+        const btn = document.getElementById('btn_toggle');
+
+        horario.style.display = 'none';
+
+        btn.addEventListener('click', () => {
+            horario.style.display = horario.style.display === 'none' ? 'block' : 'none';
+        });
+
+        const botonColor = document.getElementById('btn-color');
+        const miTabla = document.getElementById('tabla-clases');
+
+        botonColor.addEventListener('click', () => {
+            miTabla.classList.toggle('modo-hacker');
+        });
+    </script>
+</body>
+</html>
