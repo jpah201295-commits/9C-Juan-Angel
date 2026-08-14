@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url('math.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 16px;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+      padding: 28px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #1f2937;
+      margin-bottom: 20px;
+    }
+
+    .display {
+      width: 100%;
+      padding: 16px;
+      font-size: 26px;
+      text-align: right;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      background: #f9fafb;
+      margin-bottom: 16px;
+      color: #1f2937;
+      overflow-x: auto;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .scientific {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 16px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #e5e7eb;
+      color: #1f2937;
+      transition: opacity 0.2s;
+    }
+
+    button:hover {
+      opacity: 0.8;
+    }
+
+    .op {
+      background: #2563eb;
+      color: #fff;
+    }
+
+    .special {
+      background: #6b7280;
+      color: #fff;
+    }
+
+    .equals {
+      background: #16a34a;
+      color: #fff;
+    }
+
+    .clear {
+      background: #dc2626;
+      color: #fff;
+    }
+
+    .back-btn {
+      display: block;
+      width: 100%;
+      margin-top: 16px;
+      padding: 10px;
+      background: #6b7280;
+      color: #fff;
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Calculadora</h1>
+    <div class="display" id="display">0</div>
+    <div class="scientific">
+      <button class="special" onclick="applyFunction('sin')">sin</button>
+      <button class="special" onclick="applyFunction('cos')">cos</button>
+      <button class="special" onclick="applyFunction('tan')">tan</button>
+      <button class="special" onclick="applyFunction('log')">log</button>
+      <button class="special" onclick="applyFunction('ln')">ln</button>
+      <button class="special" onclick="applyFunction('sqrt')">√</button>
+    </div>
+    <div class="grid">
+      <button class="special" onclick="insertSymbol('PI')">π</button>
+      <button class="special" onclick="insertSymbol('E')">e</button>
+      <button class="clear" onclick="clearAll()">C</button>
+      <button class="op" onclick="insertOperator('^')">^</button>
+
+      <button onclick="insertNumber('7')">7</button>
+      <button onclick="insertNumber('8')">8</button>
+      <button onclick="insertNumber('9')">9</button>
+      <button class="op" onclick="insertOperator('/')">÷</button>
+
+      <button onclick="insertNumber('4')">4</button>
+      <button onclick="insertNumber('5')">5</button>
+      <button onclick="insertNumber('6')">6</button>
+      <button class="op" onclick="insertOperator('*')">×</button>
+
+      <button onclick="insertNumber('1')">1</button>
+      <button onclick="insertNumber('2')">2</button>
+      <button onclick="insertNumber('3')">3</button>
+      <button class="op" onclick="insertOperator('-')">-</button>
+
+      <button onclick="insertNumber('0')">0</button>
+      <button onclick="insertNumber('.')">.</button>
+      <button class="op" onclick="deleteLast()">⌫</button>
+      <button class="op" onclick="insertOperator('+')">+</button>
+
+      <button class="equals" style="grid-column: span 4;" onclick="calculate()">=</button>
+    </div>
+    <a href="menu.html" class="back-btn">Volver al menú</a>
+  </div>
+
+  <script>
+    const display = document.getElementById('display');
+
+    function updateDisplay(value) {
+      display.textContent = value === '' ? '0' : value;
+    }
+
+    function insertNumber(num) {
+      let current = display.textContent;
+      if (current === '0' && num !== '.') {
+        current = '';
+      }
+      if (num === '.' && current.includes('.')) {
+        return;
+      }
+      updateDisplay(current + num);
+    }
+
+    function insertOperator(op) {
+      let current = display.textContent;
+      current = current.replace('PI', Math.PI).replace('E', Math.E);
+      if ('+-*/^'.includes(current.slice(-1))) {
+        current = current.slice(0, -1);
+      }
+      updateDisplay(current + op);
+    }
+
+    function insertSymbol(symbol) {
+      let current = display.textContent;
+      if (current === '0') {
+        current = '';
+      }
+      updateDisplay(current + symbol);
+    }
+
+    function deleteLast() {
+      updateDisplay(display.textContent.slice(0, -1));
+    }
+
+    function clearAll() {
+      updateDisplay('0');
+    }
+
+    function applyFunction(name) {
+      let current = display.textContent.replace('PI', Math.PI).replace('E', Math.E);
+      try {
+        let value = Function('"use strict"; return (' + current + ')')();
+        if (typeof value !== 'number' || !isFinite(value)) {
+          throw new Error();
+        }
+        let result;
+        switch (name) {
+          case 'sin': result = Math.sin(value); break;
+          case 'cos': result = Math.cos(value); break;
+          case 'tan': result = Math.tan(value); break;
+          case 'log': result = Math.log10(value); break;
+          case 'ln': result = Math.log(value); break;
+          case 'sqrt': result = Math.sqrt(value); break;
+        }
+        if (!isFinite(result)) {
+          throw new Error();
+        }
+        updateDisplay(String(result));
+      } catch (e) {
+        updateDisplay('Error');
+      }
+    }
+
+    function calculate() {
+      try {
+        let expression = display.textContent
+          .replace(/PI/g, '(' + Math.PI + ')')
+          .replace(/E/g, '(' + Math.E + ')')
+          .replace(/\^/g, '**');
+        if (expression.includes('/0')) {
+          throw new Error();
+        }
+        const result = Function('"use strict"; return (' + expression + ')')();
+        if (!isFinite(result)) {
+          throw new Error();
+        }
+        updateDisplay(String(result));
+      } catch (e) {
+        updateDisplay('Error');
+      }
+    }
+
+    document.addEventListener('keydown', (event) => {
+      if (/[0-9.+\-*/^]/.test(event.key)) {
+        if (/[0-9.]/.test(event.key)) {
+          insertNumber(event.key);
+        } else {
+          insertOperator(event.key === '*' ? '*' : event.key === '/' ? '/' : event.key);
+        }
+      } else if (event.key === 'Enter' || event.key === '=') {
+        calculate();
+      } else if (event.key === 'Backspace') {
+        deleteLast();
+      } else if (event.key === 'Escape') {
+        clearAll();
+      }
+    });
+  </script>
+</body>
+</html>

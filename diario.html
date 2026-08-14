@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diario</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      background: #f5efe6;
+      display: flex;
+      justify-content: center;
+      padding: 30px 16px;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 640px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #4a3f35;
+      margin-bottom: 20px;
+    }
+
+    .book {
+      background: #fffdf8;
+      border-radius: 4px 12px 12px 4px;
+      box-shadow: 0 6px 20px rgba(74, 63, 53, 0.25), inset 6px 0 12px -8px rgba(74, 63, 53, 0.3);
+      padding: 32px;
+      min-height: 480px;
+      position: relative;
+    }
+
+    .book textarea {
+      width: 100%;
+      height: 330px;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 18px;
+      line-height: 1.8;
+      color: #3d342b;
+      resize: none;
+    }
+
+    .page-label {
+      text-align: center;
+      color: #a09080;
+      margin-top: 12px;
+      font-size: 14px;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 16px;
+      gap: 8px;
+    }
+
+    .nav button {
+      padding: 10px 16px;
+      font-size: 15px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: Arial, sans-serif;
+      transition: opacity 0.2s;
+    }
+
+    .nav button:hover {
+      opacity: 0.8;
+    }
+
+    .nav button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .prev {
+      background: #6b7280;
+      color: #fff;
+    }
+
+    .next {
+      background: #6b7280;
+      color: #fff;
+    }
+
+    .add-page {
+      background: #2563eb;
+      color: #fff;
+    }
+
+    .delete-page {
+      background: #dc2626;
+      color: #fff;
+    }
+
+    .page-buttons {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .page-buttons button {
+      flex: 1;
+    }
+
+    .page-counter {
+      color: #4a3f35;
+      font-size: 15px;
+      font-family: Arial, sans-serif;
+    }
+
+    .back-btn {
+      display: block;
+      width: 100%;
+      margin-top: 20px;
+      padding: 12px;
+      background: #6b7280;
+      color: #fff;
+      font-weight: bold;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Mi Diario</h1>
+    <div class="book">
+      <textarea id="page-content" placeholder="Escribe aquí..."></textarea>
+      <div class="page-label" id="page-label">Página 1</div>
+      <div class="nav">
+        <button class="prev" id="prev-btn">← Anterior</button>
+        <span class="page-counter" id="page-counter">1 / 1</span>
+        <button class="next" id="next-btn">Siguiente →</button>
+      </div>
+      <div class="page-buttons">
+        <button class="delete-page" id="delete-page-btn">Eliminar página</button>
+        <button class="add-page" id="add-page-btn">+ Nueva página</button>
+      </div>
+    </div>
+    <a href="menu.html" class="back-btn">Volver al menú</a>
+  </div>
+
+  <script>
+    const textarea = document.getElementById('page-content');
+    const pageLabel = document.getElementById('page-label');
+    const pageCounter = document.getElementById('page-counter');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const addPageBtn = document.getElementById('add-page-btn');
+    const deletePageBtn = document.getElementById('delete-page-btn');
+
+    let pages = [];
+    let currentPage = 0;
+
+    function loadPages() {
+      const saved = localStorage.getItem('diary_pages');
+      pages = saved ? JSON.parse(saved) : [''];
+      if (!Array.isArray(pages) || pages.length === 0) {
+        pages = [''];
+      }
+    }
+
+    function savePages() {
+      localStorage.setItem('diary_pages', JSON.stringify(pages));
+    }
+
+    function render() {
+      textarea.value = pages[currentPage];
+      pageLabel.textContent = 'Página ' + (currentPage + 1);
+      pageCounter.textContent = (currentPage + 1) + ' / ' + pages.length;
+      prevBtn.disabled = currentPage === 0;
+      nextBtn.disabled = currentPage === pages.length - 1;
+    }
+
+    function goToPage(index) {
+      pages[currentPage] = textarea.value;
+      currentPage = index;
+      render();
+      textarea.focus();
+    }
+
+    textarea.addEventListener('input', () => {
+      pages[currentPage] = textarea.value;
+      savePages();
+    });
+
+    prevBtn.addEventListener('click', () => {
+      if (currentPage > 0) {
+        goToPage(currentPage - 1);
+      }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (currentPage < pages.length - 1) {
+        goToPage(currentPage + 1);
+      }
+    });
+
+    addPageBtn.addEventListener('click', () => {
+      pages[currentPage] = textarea.value;
+      pages.push('');
+      savePages();
+      currentPage = pages.length - 1;
+      render();
+      textarea.focus();
+    });
+
+    deletePageBtn.addEventListener('click', () => {
+      if (pages.length === 1) {
+        const confirmReset = confirm('Es la única página. ¿Quieres borrar su contenido?');
+        if (confirmReset) {
+          pages[0] = '';
+          savePages();
+          render();
+        }
+        return;
+      }
+      const confirmDelete = confirm('¿Eliminar la página ' + (currentPage + 1) + '?');
+      if (!confirmDelete) {
+        return;
+      }
+      pages.splice(currentPage, 1);
+      if (currentPage >= pages.length) {
+        currentPage = pages.length - 1;
+      }
+      savePages();
+      render();
+    });
+
+    loadPages();
+    render();
+  </script>
+</body>
+</html>
